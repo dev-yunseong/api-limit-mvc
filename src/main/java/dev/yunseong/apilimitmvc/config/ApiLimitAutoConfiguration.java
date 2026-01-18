@@ -13,13 +13,6 @@ import dev.yunseong.apilimitmvc.storage.InMemoryRateLimitStorage;
 import dev.yunseong.apilimitmvc.storage.RateLimitStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.EnableScheduling;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,7 +29,7 @@ public class ApiLimitAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public RateLimitStorage<Object> rateLimitStorage() {
-        log.debug("Creating InMemoryRateLimitStorage bean");
+        log.info("Creating InMemoryRateLimitStorage bean");
         return new InMemoryRateLimitStorage<>();
     }
 
@@ -46,7 +39,7 @@ public class ApiLimitAutoConfiguration {
             ObjectProvider<LimitRule<?>> ruleProvider,
             RateLimitStorage<Object> storage
     ) {
-        log.debug("Creating ApiLimitFilter bean");
+        log.info("Creating ApiLimitFilter bean");
 
         List<LimitRule<?>> yamlRules = properties.getRules().stream()
                 .map(ApiLimitProperties.Rule::toDomain)
