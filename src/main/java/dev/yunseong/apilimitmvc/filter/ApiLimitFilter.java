@@ -43,7 +43,7 @@ public class ApiLimitFilter implements Filter {
 
         log.debug("Matched rules: {}", matchedRules);
 
-        if (isAllowed(request, matchedRules)) {
+        if (isAllowed(request, response, matchedRules)) {
             log.debug("Request allowed");
             filterChain.doFilter(request, response);
         } else {
@@ -52,11 +52,11 @@ public class ApiLimitFilter implements Filter {
         }
     }
 
-    private boolean isAllowed(HttpServletRequest request, List<LimitRule<?>> rules) {
+    private boolean isAllowed(HttpServletRequest request, HttpServletResponse response, List<LimitRule<?>> rules) {
         boolean fullyAllowed = true;
 
         for (LimitRule<?> rule : rules) {
-            Object key = rule.getFactor().getKey(request);
+            Object key = rule.getFactor().getKey(request, response);
             boolean isAllowed = rateLimitStorage.isAllowed(
                     key,
                     rule.getLimit(),

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import dev.yunseong.apilimitmvc.domain.CookieFactor;
 import dev.yunseong.apilimitmvc.domain.IPFactor;
 import dev.yunseong.apilimitmvc.domain.Factor;
 import dev.yunseong.apilimitmvc.domain.LimitRule;
@@ -30,7 +31,8 @@ public class ApiLimitProperties {
     }
 
     enum LimitFactor {
-        IP(new IPFactor());
+        IP(new IPFactor()),
+        COOKIE(new CookieFactor());
 
         @Getter
         private final Factor<?> domain;
